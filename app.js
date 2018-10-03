@@ -2,6 +2,9 @@ var express = require("express");
 var app = express();
 app.set("view engine", "ejs");
 
+var mongoose = require("mongoose");
+mongoose.connect("mongodb://localhost/mind-control", {useNewUrlParser:true});
+
 app.get("/", function(req,res){
     res.render("landing");
 });
