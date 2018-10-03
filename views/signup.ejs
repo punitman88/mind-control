@@ -1,5 +1,27 @@
 <% include partials/header.ejs %>
 
-<h2> This is the signup page. </h2>
+<form>
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control" id="firstName">
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last Name</label>
+        <input type="text" class="form-control" id="lastName">
+    </div>
+    <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email">
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password">
+    </div>
+    <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="agree">
+        <label class="form-check-label" for="agree">I agree to terms and conditions.</label>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
 
 <% include partials/footer.ejs %>
