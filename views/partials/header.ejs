@@ -33,9 +33,14 @@
                     <a class="nav-link" href="#">Contact</a>
                 </li>
             </ul>
+            <% if (!currentUser) { %>
             <a class="nav-link " href="/signup"> Signup </a>
             <a class="nav-link " href="/login"> Login </a>
+            <% } else { %>
             <a class="nav-link " href="/logout"> Logout </a>
+            <% } %>
+
+
         </div>
     </nav>
 
