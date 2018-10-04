@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var passport = require("passport");
 var User = require("../models/user");
+var Profile = require("../models/profile");
 
 router.get("/signup", function (req, res) {
     res.render("signup");
@@ -11,17 +12,26 @@ router.post("/signup", function (req, res) {
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
     var username = req.body.username;
-    var user = new User({ firstName: firstName, lastName: lastName, username: username });
-    User.register(user, req.body.password, function (err, createdUser) {
+    var profile = { avatar: "", linkedInUrl: "", gitHubUrl: "" };
+    // Associate a profile with user. All non login related information about the user goes into profile.
+    Profile.create(profile, function (err, userProfile) {
         if (err) {
             console.log(err);
             req.flash("error", err.message);
-            res.redirect("/signup");
+        } else {
+            var user = new User({ firstName: firstName, lastName: lastName, username: username, profile: userProfile });
+            User.register(user, req.body.password, function (err, createdUser) {
+                if (err) {
+                    console.log(err);
+                    req.flash("error", err.message);
+                    res.redirect("/signup");
+                }
+                passport.authenticate("local")(req, res, function () {
+                    req.flash("success", "Welcome to MindControl");
+                    res.redirect("/mindcontrol");
+                });
+            });
         }
-        passport.authenticate("local")(req, res, function () {
-            req.flash("success", "Welcome to MindControl");
-            res.redirect("/mindcontrol");
-        });
     });
 });
 
@@ -33,7 +43,7 @@ router.post("/login", passport.authenticate("local", {
     successRedirect: "/mindcontrol",
     failureRedirect: "/login"
 }), function (req, res) {
-    console.log("Something went wrong.");
+
 });
 
 router.get("/logout", function (req, res) {

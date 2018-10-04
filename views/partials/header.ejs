@@ -21,7 +21,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <a class="navbar-brand" href="#"><strong>MindControl</strong></a>
+            <a class="navbar-brand" href="<% if(!currentUser){ %>/<% } else { %>/mindcontrol<% } %>"><strong>MindControl</strong></a>
             <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                 <li class="nav-item active">
                     <a class="nav-link" href="#">Home</a>
@@ -37,7 +37,8 @@
             <a class="nav-link " href="/signup"> Signup </a>
             <a class="nav-link " href="/login"> Login </a>
             <% } else { %>
-            <span class="nav-link"> Signed in as: <a href="#"> <%= currentUser.firstName %> </a> </span>
+            <span class="nav-link"> Signed in as: <a href="/profiles/<%= currentUser._id %>">
+                    <%= currentUser.firstName %> </a> </span>
             <a class="nav-link " href="/logout"> Logout </a>
             <% } %>
 

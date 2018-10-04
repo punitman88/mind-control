@@ -16,6 +16,10 @@ var expressSession = require("express-session")({
 });
 app.use(expressSession);
 
+var methodOverride = require("method-override");
+app.use(methodOverride("_method"));
+app.use(express.static(__dirname + '/public', { redirect : false }));
+
 var passport = require("passport");
 var LocalStrategy = require("passport-local");
 app.use(passport.initialize());
@@ -26,7 +30,7 @@ passport.deserializeUser(User.deserializeUser());
 
 var flash = require("connect-flash");
 app.use(flash());
-app.use(function(req,res,next){
+app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
     res.locals.error = req.flash("error");
     res.locals.success = req.flash("success");
@@ -35,8 +39,10 @@ app.use(function(req,res,next){
 
 var indexRoutes = require("./routes");
 var mindControlRoutes = require("./routes/mindcontrol");
+var profileRoutes = require("./routes/profile");
 app.use(indexRoutes);
 app.use(mindControlRoutes);
+app.use(profileRoutes);
 
 app.get("/", function (req, res) {
     res.render("landing");

@@ -1,0 +1,19 @@
+<% include partials/header.ejs %>
+
+<form method="POST" action="/profiles/<%= currentUser._id %>?_method=PUT">
+    <div class="form-group">
+        <label for="avatar">Avatar</label>
+        <input type="text" class="form-control" id="avatar" name="profile[avatar]" value="<%= profile.avatar %>">
+    </div>
+    <div class="form-group">
+        <label for="linkedInUrl">LinkedIn URL</label>
+        <input type="text" class="form-control" id="linkedInUrl" name="profile[linkedInUrl]" value="<%= profile.linkedInUrl %>">
+    </div>
+    <div class="form-group">
+        <label for="gitHubUrl">GitHub URL</label>
+        <input type="text" class="form-control" id="gitHubUrl" name="profile[gitHubUrl]" value="<%= profile.gitHubUrl %>">
+    </div>
+    <button type="submit" class="btn btn-primary">Update Profile</button>
+</form>
+
+<% include partials/footer.ejs %>
