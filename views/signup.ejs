@@ -1,27 +1,27 @@
 <% include partials/header.ejs %>
 
-<form>
+<form method="POST" action="/signup">
     <div class="form-group">
         <label for="firstName">First Name</label>
-        <input type="text" class="form-control" id="firstName">
+        <input type="text" class="form-control" id="firstName" name="firstName">
     </div>
     <div class="form-group">
         <label for="lastName">Last Name</label>
-        <input type="text" class="form-control" id="lastName">
+        <input type="text" class="form-control" id="lastName" name="lastName">
     </div>
     <div class="form-group">
         <label for="email">Email Address</label>
-        <input type="email" class="form-control" id="email">
+        <input type="email" class="form-control" id="email" name="username">
     </div>
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" class="form-control" id="password">
+        <input type="password" class="form-control" id="password" name="password">
     </div>
     <div class="form-group form-check">
         <input type="checkbox" class="form-check-input" id="agree">
         <label class="form-check-label" for="agree">I agree to terms and conditions.</label>
     </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button class="btn btn-primary">Submit</button>
 </form>
 
 <% include partials/footer.ejs %>
