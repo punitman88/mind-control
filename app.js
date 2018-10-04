@@ -43,7 +43,7 @@ app.post("/signup", function (req, res) {
             res.redirect("/signup");
         }
         passport.authenticate("local")(req, res, function () {
-            res.redirect("/");
+            res.redirect("/mindcontrol");
         });
     });
 });
@@ -53,7 +53,7 @@ app.get("/login", function (req, res) {
 });
 
 app.post("/login", passport.authenticate("local", {
-    successRedirect: "/",
+    successRedirect: "/mindcontrol",
     failureRedirect: "/login"
 }), function (req, res) {
     console.log("Something went wrong.");
@@ -63,6 +63,18 @@ app.get("/logout", function (req, res) {
     req.logout();
     res.redirect("/");
 });
+
+app.get("/mindcontrol", isLoggedIn, function (req, res) {
+    res.render("mindcontrol");
+});
+
+function isLoggedIn(req, res, next) {
+    if (req.isAuthenticated()) {
+        next();
+    } else {
+        res.redirect("login");
+    }
+}
 
 app.listen(3000, function () {
     console.log("Application now running at port 3000");
