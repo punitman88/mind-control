@@ -3,7 +3,7 @@ var app = express();
 app.set("view engine", "ejs");
 
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/mind-control", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/mind-control", { useNewUrlParser: true, useCreateIndex: true });
 var User = require("./models/user");
 
 var bodyParser = require("body-parser");
@@ -42,7 +42,6 @@ app.post("/signup", function (req, res) {
             console.log(err);
             res.redirect("/signup");
         }
-        console.log("Redirecting");
         passport.authenticate("local")(req, res, function () {
             res.redirect("/");
         });
@@ -53,7 +52,15 @@ app.get("/login", function (req, res) {
     res.render("login");
 });
 
+app.post("/login", passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/login"
+}), function (req, res) {
+    console.log("Something went wrong.");
+});
+
 app.get("/logout", function (req, res) {
+    req.logout();
     res.redirect("/");
 });
 
