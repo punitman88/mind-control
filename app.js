@@ -24,6 +24,15 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+var flash = require("connect-flash");
+app.use(flash());
+app.use(function(req,res,next){
+    res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
+    next();
+});
+
 app.get("/", function (req, res) {
     res.render("landing");
 });
@@ -40,9 +49,11 @@ app.post("/signup", function (req, res) {
     User.register(user, req.body.password, function (err, createdUser) {
         if (err) {
             console.log(err);
+            req.flash("error", err.message);
             res.redirect("/signup");
         }
         passport.authenticate("local")(req, res, function () {
+            req.flash("success", "Welcome to MindControl");
             res.redirect("/mindcontrol");
         });
     });
@@ -61,6 +72,7 @@ app.post("/login", passport.authenticate("local", {
 
 app.get("/logout", function (req, res) {
     req.logout();
+    req.flash("success", "Successfully logged out");
     res.redirect("/");
 });
 
@@ -72,6 +84,7 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated()) {
         next();
     } else {
+        req.flash("error", "You need to be logged in to perform that action");
         res.redirect("login");
     }
 }
