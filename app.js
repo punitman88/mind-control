@@ -29,6 +29,8 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+const passportSetup = require("./config/passport-config");
+
 var flash = require("connect-flash");
 app.use(flash());
 app.use(function (req, res, next) {
@@ -41,9 +43,11 @@ app.use(function (req, res, next) {
 var indexRoutes = require("./routes");
 var mindControlRoutes = require("./routes/mindcontrol");
 var profileRoutes = require("./routes/profile");
+var authRoutes = require("./routes/auth-routes");
 app.use(indexRoutes);
 app.use(mindControlRoutes);
 app.use(profileRoutes);
+app.use("/auth", authRoutes);
 
 app.get("/", function (req, res) {
     res.render("landing");
