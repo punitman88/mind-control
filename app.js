@@ -1,9 +1,10 @@
 var express = require("express");
 var app = express();
+var keys = require("./config/keys");
 app.set("view engine", "ejs");
 
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/mind-control", { useNewUrlParser: true, useCreateIndex: true });
+mongoose.connect(keys.mongodb.dbURI, { useNewUrlParser: true, useCreateIndex: true });
 var User = require("./models/user");
 
 var bodyParser = require("body-parser");
@@ -18,7 +19,7 @@ app.use(expressSession);
 
 var methodOverride = require("method-override");
 app.use(methodOverride("_method"));
-app.use(express.static(__dirname + '/public', { redirect : false }));
+app.use(express.static(__dirname + '/public', { redirect: false }));
 
 var passport = require("passport");
 var LocalStrategy = require("passport-local");
